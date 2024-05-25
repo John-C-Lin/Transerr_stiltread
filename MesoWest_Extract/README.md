@@ -3,6 +3,7 @@ R code to read in and process MesoWest met data
 
 Below are some notes from emails discussing these MesoWest stations:
 
+------------------------------------------------------------------------------------------------------------------------
 On Fri, Mar 15, 2019 at 10:01 AM Alex Jacques <alexander.jacques@utah.edu> wrote:
 Just one word of caution there that the list was picked based on the general ability of being reasonably representative of conditions (i.e. no giant obstacles in the way, exposure in all directions, etc.).  That said, they still do have their nuances...
 

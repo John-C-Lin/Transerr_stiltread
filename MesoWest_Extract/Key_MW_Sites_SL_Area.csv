@@ -1,0 +1,65 @@
+Station_Identifier,Station_Name,Latitude,Longitude,Elevation_ft,Station_Type
+FPN,Flight Park North,40.47415,-111.89138,5138,MesoWest/University of Utah
+FPS,Flight Park South,40.45689,-111.90483,5202,MesoWest/University of Utah
+HERUT,Herriman,40.48815,-112.02548,5144,MesoWest/University of Utah
+MTMET,U of U Mountain Met Lab,40.76657,-111.82821,4996,MesoWest/University of Utah
+NAA,Neil Armstrong Academy,40.71152,-112.01448,4260,MesoWest/University of Utah
+NHMU,Natural History Museum Utah,40.76431,-111.82286,5061,MesoWest/University of Utah
+SUNUT,SunCrest,40.48042,-111.83714,6100,MesoWest/University of Utah
+TRJO,Trans-Jordan Landfill,40.55681,-112.06094,5201,MesoWest/University of Utah
+UFD09,UofU Antelope Island Tripod,40.92533,-112.15936,4206,MesoWest/University of Utah
+WBB,U of U William Browning Building,40.76623,-111.84755,4806,MesoWest/University of Utah
+FARM,Farmington Bench,41.00400,-111.89070,4700,National Weather Service
+TPC,Timpanogos Rim,40.43524,-111.70741,8015,National Weather Service
+K36U,Heber City Municipal-Russ McDonald Field Airport,40.47742,-111.43295,5597,National Weather Service ASOS/AWOS
+KSLC,"Salt Lake City, Salt Lake City International Airport",40.77069,-111.96503,4226,National Weather Service ASOS/AWOS
+KTVY,Bolinder Field-Tooele Valley Airport,40.61269,-112.35362,4291,National Weather Service ASOS/AWOS
+KU42,"Salt Lake City, Salt Lake City Municipal 2 Airport",40.61960,-111.99016,4596,National Weather Service ASOS/AWOS
+QBV,Bountiful - Viewmont,40.89800,-111.88550,4318,Utah Division of Air Quality
+QED,Erda,40.60056,-112.35583,4341,Utah Division of Air Quality
+QH3,Herriman,40.49612,-112.03630,5036,Utah Division of Air Quality
+QHW,Hawthorne,40.73350,-111.87170,4304,Utah Division of Air Quality
+QLN,Lindon,40.33880,-111.71330,4731,Utah Division of Air Quality
+QMG,Magna,40.70350,-112.09380,4291,Utah Division of Air Quality
+QNP,North Provo,40.25350,-111.66320,4626,Utah Division of Air Quality
+QRP,Rose Park,40.79550,-111.93100,4259,Utah Division of Air Quality
+QSA,Saltaire,40.80598,-112.04982,4206,Utah Division of Air Quality
+BAC,BACCUS/SR111,40.63520,-112.05590,5172,Utah DOT RWIS
+CEN,Centerville,40.94968,-111.89163,4231,Utah DOT RWIS
+KIJ,Kimball Junction I80,40.72748,-111.54265,6403,Utah DOT RWIS
+UT11,9000S/I15 NB,40.58874,-111.89984,4380,Utah DOT RWIS
+UT12,I15/I215 SB,40.63715,-111.90498,4345,Utah DOT RWIS
+UT20,I15 500S WB (Gateway),40.75829,-111.91210,4248,Utah DOT RWIS
+UT201,SR-201 at I-80,40.72255,-112.22569,4272,Utah DOT RWIS
+UT23,I-15/2400 S Spaghetti,40.71709,-111.90446,4265,Utah DOT RWIS
+UT248,SR-248,40.63387,-111.38467,6900,Utah DOT RWIS
+UT3,PARLEYS SUMMIT,40.75300,-111.62499,6993,Utah DOT RWIS
+UT5,MOUTH PARLEYS,40.71220,-111.80190,4853,Utah DOT RWIS
+UT7,BLUFFDALE,40.47536,-111.90485,4679,Utah DOT RWIS
+UT9,LAKE POINT I-80,40.69290,-112.26361,4248,Utah DOT RWIS
+UTALP,Point of the Mountain (I-15 Alpine),40.44983,-111.91172,4796,Utah DOT RWIS
+UTBIG,SR-65 at Big Mountain Pass,40.82794,-111.65448,7433,Utah DOT RWIS
+UTCDF,Cardiff - Big Cottonwood Canyon,40.65030,-111.64990,7298,Utah DOT RWIS
+UTCHL,US-189 at Charleston,40.45580,-111.47070,5440,Utah DOT RWIS
+UTCOL,I-80 @ Coalville,40.91775,-111.40721,5570,Utah DOT RWIS
+UTDAN,US-40 @ Daniels Summit,40.30330,-111.25780,8000,Utah DOT RWIS
+UTDCD,US-189 at Deer Creek Dam,40.40525,-111.52660,5429,Utah DOT RWIS
+UTDWY,SR-85 @ Dannon Way,40.58227,-112.03040,4910,Utah DOT RWIS
+UTHEB,US-40 Heber,40.56360,-111.42880,5733,Utah DOT RWIS
+UTJUN,SR-85 @ Juniper,40.48450,-111.99380,4900,Utah DOT RWIS
+UTLGP,Legacy Parkway,40.90772,-111.91657,4215,Utah DOT RWIS
+UTLPC,US-189 at Lower Provo Canyon,40.32840,-111.63900,4929,Utah DOT RWIS
+UTMFS,US-40 Mayflower Summit,40.65290,-111.45690,6929,Utah DOT RWIS
+UTORM,I-15 @ Orem,40.31925,-111.72670,4650,Utah DOT RWIS
+UTPCR,Pioneer Crossing,40.37253,-111.91614,4529,Utah DOT RWIS
+UTPCY,Provo Canyon @ mp10,40.33410,-111.61330,5119,Utah DOT RWIS
+UTPKL,US-89 at Park Lane,40.98985,-111.90130,4288,Utah DOT RWIS
+UTPLC,Powerhouse - Little Cottonwood Canyon,40.57096,-111.74374,6049,Utah DOT RWIS
+UTPR4,Portable RWIS 4,41.01040,-111.37370,5749,Utah DOT RWIS
+UTQRY,Parleys Canyon @ Quarry,40.72810,-111.76560,5126,Utah DOT RWIS
+UTSTR,S-Turns - Big Cottonwood Canyon,40.63339,-111.72275,6235,Utah DOT RWIS
+UTSVC,I-80 @ Silver Ck Jct,40.73205,-111.49825,6498,Utah DOT RWIS
+UTTPD,Torpedo Hill - Big Cottonwood Canyon,40.62290,-111.75040,5553,Utah DOT RWIS
+UTWAN,I-80 @ Wanship,40.81295,-111.40141,5852,Utah DOT RWIS
+UTWLC,White Pine - Little Cottonwood Canyon,40.57600,-111.68150,7688,Utah DOT RWIS
+UCC14,Murray,40.63133,-111.91980,4290,Utah State University

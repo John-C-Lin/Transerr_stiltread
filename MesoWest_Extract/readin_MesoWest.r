@@ -4,8 +4,8 @@
 ###############
 token <- 'demotoken'
 # JCL(210321): for Uintah Basin analyses, choose whole years between 2016 and 2020 for analyses and save objects on annual timsecale to facilitate analyses later
-starts<-c("201501010000","201601010000","201701010000","201801010000","201901010000","202001010000","202101010000","202201010000","202301010000")[9]
-ends  <-c("201512312300","201612312300","201712312300","201812310000","201912312300","202012312300","202112312300","202212312300","202312312300")[9]
+starts<-c("201501010000","201601010000","201701010000","201801010000","201901010000","202001010000","202101010000","202201010000","202301010000")[8:9]
+ends  <-c("201512312300","201612312300","201712312300","201812310000","201912312300","202012312300","202112312300","202212312300","202312312300")[8:9]
 
 stids <- NULL
 #Key MesoWest sites in SLV recommended by Alex Jacques
@@ -65,36 +65,39 @@ for(i in 1:length(stids)){
   colnms<-strsplit(strings[7],split=",")[[1]]
   colnms[colnms=="Date_Time"]<-"Time"
   units<-strsplit(strings[8],split=",")[[1]]
-  #units<-scan(filenm,what="",comment.char="#",sep=",",nlines=1,skip=7)
-
 
   strings <- strings[9:length(strings)]
-  xx<-strsplit(strings,split=",")
-  nn<-unlist(lapply(xx,length))
-if(length(unique(nn))==1){
+
+if(length(strings)==1){
   dat <- read.table(text = strings, sep = ',', header = F, stringsAsFactors = F,col.names=colnms)
 }else{
   if(sum(substring(colnms,1,17)%in%"weather_condition")>0){
     print("weather_condition found!")
     #deal with weather conditions that also have "comma" in the data--e.g., "Snow, Blowing Snow, Ice Fog"
-    nlast<-which(substring(colnms,1,17)=="weather_condition")
-    f<-function(x,nlast){
-      lastcol<-x[nlast]
-      if(is.na(lastcol))lastcol<-""
-      if(length(x)>nlast){
-        #combine last columns together 
-        lastcol<-paste(x[nlast:length(x)],collapse=",")
-      }else if(trimws(lastcol)==""){
-        lastcol<-"NA"
-      } #if(length(x)>=nlast){
-      y<-c(x[1:(nlast-1)],lastcol)
-      return(y)
-    } #f<-function(x){
-  #} #if(sum(substring(colnms,1,17)%in%"weather_condition")>0){
-  }else {
-    #if(colnms[length(colnms)]=="heat_index_set_1d"){
-    #print("heat_index_set_1d found!")
-    nlast<-length(colnms)
+
+    #(240526): search for special character sequence "\*" that bracket the weather condition data column
+    #x <- strings[15639]
+    parseweathercol <- function(x){
+      ends <- gregexpr('\\"',x)[[1]]
+      x1 <- substring(x,1,ends[1]-1)         # beginning of string
+      x2 <- NULL;w0 <- 1
+      for(ww in 1:(length(ends)/2)){
+        xw <- gsub(",","-",xw)  # remove any extra commas within weather condition string
+        xw <- gsub('\\"','',xw) # strip special character sequence "\*"
+	if(ww==1)x2 <- xw
+	if(ww>1) x2 <- paste0(x2,",",xw)
+	w0 <- w0 + 2
+      } # for(ww in 1:length(ends)/2){
+      x3 <- substring(x,max(ends)+1,nchar(x))  # end of string
+      result <- paste0(x1,x2,x3)
+      return(result)
+    } # parseweathercol <- function(x){
+    strings <- sapply(strings,parseweathercol)
+   } # if(sum(substring(colnms,1,17)%in%"weather_condition")>0){
+
+  strings.split <-strsplit(strings,split=",")
+  nn <- unlist(lapply(strings.split,length))
+  nlast<-length(colnms)
     f<-function(x,nlast){
       if(length(x)==nlast){return(x)}
       if(length(x)<nlast){
@@ -102,12 +105,12 @@ if(length(unique(nn))==1){
       } #if(length(x)<nlast){
       y<-c(x,lastcol);return(y)
     } #f<-function(x){
-  } #if(colnms[length(colnms)]=="heat_index_set_1d"){
 
-  tmp<-unlist(lapply(xx,f,nlast=nlast))
+  tmp<-unlist(lapply(strings.split,f,nlast=nlast))
   data<-matrix(tmp,byrow=T,ncol=length(colnms))
   dimnames(data)<-list(NULL,colnms)
   dat<-as.data.frame(data)
+  dat$Station_ID <- stid
   dum<-dat
 
   #convert the factors into numeric values
@@ -122,7 +125,6 @@ if(length(unique(nn))==1){
 } #if(length(unique(nn))==1){
 
   dat$Time <- as.POSIXct(dat$Time, tz = 'UTC', format = '%Y-%m-%dT%H:%M:%SZ')
-
 
   #convert wind vector to U- and V-components
   if("wind_direction_set_1"%in%colnames(dat) & "wind_speed_set_1"%in%colnames(dat)){

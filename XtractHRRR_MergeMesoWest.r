@@ -27,8 +27,8 @@ library(stiltread)  #;install_stiltread()
 #starts<-c("201903010000","202003010000"); ends  <-c("201907312300","202012312300")
 
 # JCL(210321): for Uintah Basin analyses, choose whole years between 2016 and 2020 for analyses and save objects on annual timsecale to facilitate analyses later
-starts<-c("201501010000","201601010000","201701010000","201801010000","201901010000","202001010000","202101010000")[7]
-ends  <-c("201512312300","201612312300","201712312300","201812312300","201912312300","202012312300","202112312300")[7]
+starts<-c("201501010000","201601010000","201701010000","201801010000","201901010000","202001010000","202101010000","202201010000","202301010000")[8:9]
+ends  <-c("201512312300","201612312300","201712312300","201812312300","201912312300","202012312300","202112312300","202212312300","202312312300")[8:9]
 
 
 #stids<-c("KSLC","KU42","QHW")
@@ -49,7 +49,7 @@ stids<-stids[!stids%in%c("SFLU1")]  #problematic stations when extracting...
 #Additional MesoWest sites in northern SLC
 stids<-c(stids,c("USDR2"))  #UofU MiniSodar2
 
-Mdir<-"MesoWest_Extract/Output/"
+Mdir<-"MesoWest_Extract/out/"
 #metdir<-"/uufs/chpc.utah.edu/common/home/lin-group8/hrrr/data/wasatch/"
 #metdir<-"/uufs/chpc.utah.edu/common/home/lin-group8/hrrr/data/utah/"
 #metdir<-"/uufs/chpc.utah.edu/common/home/lin-group12/hrrr/hrrr/"
@@ -95,7 +95,7 @@ YYYYMMDDHHs.all<-format(tmp,format="%Y%m%d%H")
 SEL.UThrs<-substring(YYYYMMDDHHs.all,9,10)%in%UThrs
 YYYYMMDDHHs<-YYYYMMDDHHs.all[SEL.UThrs]
 
-metresultname<-paste0("Output/",mettype,"_",start,"to",end,".RDS")
+metresultname<-paste0("out/",mettype,"_",start,"to",end,".RDS")
 if(XtractTF){
   if(overwriteTF){
     Time <- strptime(YYYYMMDDHHs,tz="UTC",format="%Y%m%d%H")
@@ -196,7 +196,7 @@ for(i in 1:length(stids)){
   colnames(result)<-col.names
 
   finalresult<-list(station.info=coords,dat=result)
-  finalresultname<-paste0("Output/",mettype,"_obs_",start,"to",end,".RDS")
+  finalresultname<-paste0("out/",mettype,"_obs_",start,"to",end,".RDS")
   saveRDS(finalresult,file=finalresultname);print(paste(finalresultname,"written out"))
 
   gc()

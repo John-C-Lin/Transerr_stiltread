@@ -76,13 +76,13 @@ if(length(strings)==1){
     #deal with weather conditions that also have "comma" in the data--e.g., "Snow, Blowing Snow, Ice Fog"
 
     #(240526): search for special character sequence "\*" that bracket the weather condition data column
-    #x <- strings[15639]
     parseweathercol <- function(x){
       ends <- gregexpr('\\"',x)[[1]]
       x1 <- substring(x,1,ends[1]-1)         # beginning of string
       x2 <- NULL;w0 <- 1
       for(ww in 1:(length(ends)/2)){
-        xw <- gsub(",","-",xw)  # remove any extra commas within weather condition string
+        xw <- substring(x,ends[ww],ends[ww+1])  # weather condition string
+        xw <- gsub(",",";",xw)  # remove any extra commas within weather condition string
         xw <- gsub('\\"','',xw) # strip special character sequence '\"'
 	if(ww==1)x2 <- xw
 	if(ww>1) x2 <- paste0(x2,",",xw)

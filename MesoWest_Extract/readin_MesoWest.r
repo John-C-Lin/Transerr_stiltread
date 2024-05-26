@@ -83,7 +83,7 @@ if(length(strings)==1){
       x2 <- NULL;w0 <- 1
       for(ww in 1:(length(ends)/2)){
         xw <- gsub(",","-",xw)  # remove any extra commas within weather condition string
-        xw <- gsub('\\"','',xw) # strip special character sequence "\*"
+        xw <- gsub('\\"','',xw) # strip special character sequence '\"'
 	if(ww==1)x2 <- xw
 	if(ww>1) x2 <- paste0(x2,",",xw)
 	w0 <- w0 + 2

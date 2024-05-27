@@ -21,10 +21,10 @@
 #start.file<- '201908081400'; end.file  <- '201908081700' #Gravel pit case study for GSV paper
 #start.file<- '201909091400'; end.file  <- '201909091700' #Gravel pit case study for GSV paper
 # JCL(210321): for Uintah Basin analyses, choose whole years between 2016 and 2020 for analyses and save objects on annual timsecale to facilitate analyses later
-start.file<-c("201601010000","201701010000","201801010000","201901010000","202001010000")[3]
-end.file  <-c("201612312300","201712312300","201812310000","201912312300","202012312300")[3]
+start.file<-c("201601010000","201701010000","201801010000","201901010000","202001010000","202101010000","202201010000","202301010000")[7]
+end.file  <-c("201612312300","201712312300","201812310000","201912312300","202012312300","202112312300","202212312300","202312312300")[7]
 
-outputdir <- "Output/"   #output from 'TransErr_HRRR.r'
+outputdir <- "out/"   #output from 'TransErr_HRRR.r'
 
 mettype<-"HRRR"
 VARS<-c("U","V","WSPD","T")
@@ -47,18 +47,21 @@ objname<-paste0(outputdir,"/",mettype,"_Errstats_",start.file,"to",end.file,".RD
 DAT<-readRDS(file=objname)
 dat<-DAT$dat
 
+station.info <- DAT$station.info
+sel <- rownames(dat)%in%intersect(rownames(station.info),rownames(dat))
+dat <- dat[sel,] 
+sel <- rownames(station.info)%in%intersect(rownames(station.info),rownames(dat))
+station.info <- station.info[sel,] 
+LON.all <- station.info[,"LON"];LAT.all<-station.info[,"LAT"]
+
 vars<-colnames(dat)
 vars<-vars[substring(vars,1,1)%in%substring(VARS,1,1)]
 for(i in 1:length(vars)){
-#for(i in 2){
-  station.info<-DAT$station.info
-  #var<-"U.rmse"
   var<-vars[i]
   err<-dat[,var]
-  LON<-station.info[,"LON"];LAT<-station.info[,"LAT"]
-  sel<-is.na(err)|is.nan(err)|is.na(LON)|is.na(LAT)
-  err<-err[!sel];LON<-LON[!sel];LAT<-LAT[!sel]
-  station.info<-station.info[!sel,]
+  sel<-is.na(err)|is.nan(err)|is.na(LON.all)|is.na(LAT.all)
+  err<-err[!sel];LON<-LON.all[!sel];LAT<-LAT.all[!sel]
+  station.info.sub<-station.info[!sel,]
 
 #lons/lats covering range
 if(is.null(XLIMS[1])|is.null(YLIMS[1])){
@@ -98,7 +101,7 @@ if(!plotgooglemapTF){
   dev.new();image.plot(x=lons,y=lats,z=zmat,zlim=range(err),main=xmain,cex.main=1.3)
   map("state",add=TRUE);map.cities(minpop=100000)
   points(LON,LAT,pch=17,col="black")
-  text(LON,LAT,labels=rownames(station.info))
+  text(LON,LAT,labels=rownames(station.info.sub))
   #err.interp<-zmat
 
   #convert to raster format
@@ -120,7 +123,7 @@ if(!plotgooglemapTF){
   #par(pty="s");MyMap <- GetMap.bbox(bb$lonR, bb$latR)  #Openstreet map server (doesn't seem to work)
   par(pty="s");MyMap <- GetMap.bbox(bb$lonR, bb$latR,urlBase = "http://mt1.google.com/vt/lyrs=m", tileDir= "./mapTiles/Google/")
   PlotOnStaticMap(MyMap,lat=LAT,lon=LON,col="black",pch=16,FUN=points,TrueProj = TRUE,mar=c(2,2,3,2))
-  if(plotstidTF)PlotOnStaticMap(MyMap,lat=LAT,lon=LON,col="black",FUN=text,TrueProj = TRUE,add=TRUE,labels=rownames(station.info))
+  if(plotstidTF)PlotOnStaticMap(MyMap,lat=LAT,lon=LON,col="black",FUN=text,TrueProj = TRUE,add=TRUE,labels=rownames(station.info.sub))
   title(main=xmain,cex.main=1.5)
   mtext(xsub,side=1,cex=1.1)
 

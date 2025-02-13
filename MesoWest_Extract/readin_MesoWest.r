@@ -1,11 +1,11 @@
-#Reads in MesoWest data downloaded from API--e.g., 
+#Reads in MesoWest/Synoptic data downloaded from API--e.g., 
 #First written on June 20th, 2017 by John C. Lin (John.Lin@utah.edu)
 
 ###############
-token <- 'demotoken'
+token <- 'demotoken'  # token from Synoptic Data
 # JCL(210321): for Uintah Basin analyses, choose whole years between 2016 and 2020 for analyses and save objects on annual timsecale to facilitate analyses later
-starts<-c("201501010000","201601010000","201701010000","201801010000","201901010000","202001010000","202101010000","202201010000","202301010000")[8:9]
-ends  <-c("201512312300","201612312300","201712312300","201812310000","201912312300","202012312300","202112312300","202212312300","202312312300")[8:9]
+starts<-c("201501010000","201601010000","201701010000","201801010000","201901010000","202001010000","202101010000","202201010000","202301010000","202401010000")[10]
+ends  <-c("201512312300","201612312300","201712312300","201812310000","201912312300","202012312300","202112312300","202212312300","202312312300","202412310000")[10]
 
 stids <- NULL
 #Key MesoWest sites in SLV recommended by Alex Jacques
@@ -27,6 +27,7 @@ stids <- c(stids,c("USDR2"))
 
 avgtohrlyTF <- TRUE
 ###############
+if(token=='demotoken')stop("need to put in valid token!")
 if(length(starts)!=length(ends)){stop("starts and ends have to have the same length")}
 
 for(tt in 1:length(starts)){
@@ -45,7 +46,8 @@ for(i in 1:length(stids)){
   resultname<-paste0(stid,"_",start,"to",end)
   print(paste(".......... Parsing: Station",stid,"from",start,"to",end,"..........."))
 
-  strings <- try(readLines(paste0('http://api.mesowest.net/v2/stations/timeseries?',
+  # see https://docs.synopticdata.com/services/time-series
+  strings <- try(readLines(paste0('https://api.synopticdata.com/v2/stations/timeseries?',
                               '&token=', token, '&start=', start, '&end=', end,
                               '&stid=', stid, '&obtimezone=utc', '&output=csv')),silent=TRUE)
   if(length(strings)<10){print("data too limited; skip");next}

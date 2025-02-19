@@ -21,8 +21,8 @@
 #start.file<- '201908081400'; end.file  <- '201908081700' #Gravel pit case study for GSV paper
 #start.file<- '201909091400'; end.file  <- '201909091700' #Gravel pit case study for GSV paper
 # JCL(210321): for Uintah Basin analyses, choose whole years between 2016 and 2020 for analyses and save objects on annual timsecale to facilitate analyses later
-start.file<-c("201601010000","201701010000","201801010000","201901010000","202001010000","202101010000","202201010000","202301010000")[7]
-end.file  <-c("201612312300","201712312300","201812310000","201912312300","202012312300","202112312300","202212312300","202312312300")[7]
+start.file<-c("201601010000","201701010000","201801010000","201901010000","202001010000","202101010000","202201010000","202301010000","202401010000")[9]
+end.file  <-c("201612312300","201712312300","201812310000","201912312300","202012312300","202112312300","202212312300","202312312300","202412312300")[9]
 
 outputdir <- "out/"   #output from 'TransErr_HRRR.r'
 
@@ -34,10 +34,10 @@ VARS<-c("U","V","WSPD","T")
 #b)  Uintah Basin domain
 XLIMS<-c(-111.05,-108.9);YLIMS<-c(39.4,41.0)  #set lat/lon limits for limits of map;  set to NULL if dynamically determine
 #dx<-0.002;dy<-dx  #grid spacing of interpolated error "map"
-dx<-0.004;dy<-dx  #grid spacing of interpolated error "map"
+dx <- 0.004;dy <- dx  #grid spacing of interpolated error "map"
 
-plotgooglemapTF<-TRUE
-plotstidTF<-TRUE      #whether or not to plot station code 
+plotgooglemapTF <- TRUE
+plotstidTF <- TRUE      #whether or not to plot station code 
 ###################
 
 library(gstat);library(fields)

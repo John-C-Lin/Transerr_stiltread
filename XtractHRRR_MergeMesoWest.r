@@ -27,8 +27,8 @@ library(stiltread)  #;install_stiltread()
 #starts<-c("201903010000","202003010000"); ends  <-c("201907312300","202012312300")
 
 # JCL(210321): for Uintah Basin analyses, choose whole years between 2016 and 2020 for analyses and save objects on annual timsecale to facilitate analyses later
-starts<-c("201501010000","201601010000","201701010000","201801010000","201901010000","202001010000","202101010000","202201010000","202301010000")[8:9]
-ends  <-c("201512312300","201612312300","201712312300","201812312300","201912312300","202012312300","202112312300","202212312300","202312312300")[8:9]
+starts<-c("201501010000","201601010000","201701010000","201801010000","201901010000","202001010000","202101010000","202201010000","202301010000","202401010000")[10]
+ends  <-c("201512312300","201612312300","201712312300","201812312300","201912312300","202012312300","202112312300","202212312300","202312312300","202412312300")[10]
 
 
 #stids<-c("KSLC","KU42","QHW")
@@ -60,8 +60,8 @@ mettype<-"HRRR"
 #UThrs <- formatC(seq(0,21,3),width=2,flag="0")   #hours selected for comparison [UTC]
 UThrs <- formatC(seq(0,23,1),width=2,flag="0")   #hours selected for comparison [UTC]
 #UThrs <- formatC(seq(20,23,1),width=2,flag="0")   #hours selected for comparison [UTC]
-XtractTF <- TRUE               #extract met data?
-overwriteTF <- TRUE            #whether or not to overwrite previous results
+XtractTF <- TRUE              #extract met data?
+overwriteTF <- FALSE   #whether or not to overwrite previous results
 bilinear.interpTF <- TRUE      #whether to carry out bilinear interpolation
 xres <- 0.004; yres <- 0.004 #interpolation grid spacing [deg lat/lon]
 #####################
@@ -80,15 +80,16 @@ for(i in 1:length(stids)){
   objname<-paste0(stid,"_",start,"to",end,"_hrly.RDS")
   if(!file.exists(paste0(Mdir,objname))){print(paste(objname,"missing"));next}
   stids.new<-c(stids.new,stid)
+  print(paste("Reading in:",objname))
   DAT<-readRDS(paste0(Mdir,objname))
   coords<-rbind(coords,c(DAT$LON,DAT$LAT,DAT$ELEVATION.ft))
   longnames<-rbind(longnames,DAT$STATION)
+  gc()
 } #for(i in 1:length(stids)){
 stids<-stids.new  #accounts for missing stations...
 dimnames(coords)<-list(stids,c("LON","LAT","ELEVATION.ft"))
 coords<-data.frame(coords,STATION_INFO=longnames)
 
-#YYYYMMDDHHs.all<-format(DAT$dat[,"Time"],format="%Y%m%d%H")
 tmp<-seq(from = strptime(start, format="%Y%m%d%H",tz = 'UTC'),
          to = strptime(end, format="%Y%m%d%H",tz = 'UTC'), by   = 'hour')
 YYYYMMDDHHs.all<-format(tmp,format="%Y%m%d%H")
@@ -96,7 +97,7 @@ SEL.UThrs<-substring(YYYYMMDDHHs.all,9,10)%in%UThrs
 YYYYMMDDHHs<-YYYYMMDDHHs.all[SEL.UThrs]
 
 metresultname<-paste0("out/",mettype,"_",start,"to",end,".RDS")
-if(XtractTF){
+if(XtractTF){ # -------------------------------------------------------------------------------------------------------------------------------------
   if(overwriteTF){
     Time <- strptime(YYYYMMDDHHs,tz="UTC",format="%Y%m%d%H")
     COLNMS <- paste0(rep(c("Usim.","Vsim.","Tsim."),each=length(stids)),rep(stids,3))
@@ -112,8 +113,8 @@ if(XtractTF){
     i0 <- which(numNA==(ncol(result)-1))[1]
     print(paste("Starting from row #:",i0))
   } #if(overwriteTF){
+
 for(i in i0:length(YYYYMMDDHHs)){
-#for(i in 1:length(YYYYMMDDHHs)){
   YYYYMMDDHH<-YYYYMMDDHHs[i]
   print(paste("Processing....",YYYYMMDDHH))
   YYYYMMDD<-substring(YYYYMMDDHH,1,8)
@@ -136,8 +137,7 @@ for(i in i0:length(YYYYMMDDHHs)){
   #call read_met_wind from stiltread R package
   nlvl<-0 #read surface winds ("U10M")
   #Since wind is grid relative, use read_met_wind instead of read_met to access wind fields. This is called in the same way as read_met, only no var argument is required. This returns a rasterStack with u and v layers that have been rotated into +proj=longlat.
-  #!!!!! 'try' deals with cases if read_met_wind crashes--e.g., wrong date specified or if variable does NOT exist !!!!#
-  #uv <- read_met_wind(paste0(metdir,metfile), yy = yy, mm = mm, dd = dd, hh = hh, lvl = nlvl)
+  # 'try' deals with cases if read_met_wind crashes--e.g., wrong date specified or if variable does NOT exist !!!!#
   uv<- try(read_met_wind(paste0(metdir,metfile), yy = yy, mm = mm, dd = dd, hh = hh, lvl = nlvl),silent=TRUE)
   if(is.null(uv[1])){print(paste("uv is NULL!; Skip",metfile,"due to error in reading U/V: ",uv));next}
   if(class(uv)=="try-error"){print(paste("Skip",metfile,"due to error in reading U/V: ",uv));next}
@@ -178,7 +178,7 @@ if(bilinear.interpTF){
   saveRDS(result,file=metresultname);print(paste(metresultname,"written out"))
   gc()
 } #for(i in 1:length(YYYYMMDDHHs)){
-} #if(XtractTF){
+} #if(XtractTF){ -------------------------------------------------------------------------------------------------------------------------------------
 
 #Merge model data with OBS (hourly averaged)
 result<-readRDS(metresultname)

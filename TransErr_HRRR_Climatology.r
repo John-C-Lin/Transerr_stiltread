@@ -15,9 +15,11 @@
 #start <- '201609010000' #YYYYMMDDHHmm
 #end <- '201711302300'   #YYYYMMDDHHmm
 #end <- '201802282300'   #YYYYMMDDHHmm
-start <- '201908010000' #YYYYMMDDHHmm
+#start <- '201908010000' #YYYYMMDDHHmm
 #end <- '202009302300'   #YYYYMMDDHHmm
-end <- '202002292300'   #YYYYMMDDHHmm
+#end <- '202002292300'   #YYYYMMDDHHmm
+start <- '202401010000' #YYYYMMDDHHmm
+end   <- '202412312300' #YYYYMMDDHHmm
 
 #central file with ALL possible MesoWest sites; loads object "stids"
 source("stids_all.r")

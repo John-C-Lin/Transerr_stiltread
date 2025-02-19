@@ -14,8 +14,8 @@
 #starts<-c("201903010000","202003010000")
 #ends  <-c("201907312300","202012312300")
 # JCL(210321): for Uintah Basin analyses, choose whole years between 2016 and 2020 for analyses and save objects on annual timsecale to facilitate analyses later
-starts<-c("201601010000","201701010000","201801010000","201901010000","202001010000","202101010000")[6]
-ends  <-c("201612312300","201712312300","201812310000","201912312300","202012312300","202112312300")[6]
+starts<-c("201601010000","201701010000","201801010000","201901010000","202001010000","202101010000","202201010000","202301010000","202401010000")[9]
+ends  <-c("201612312300","201712312300","201812310000","201912312300","202012312300","202112312300","202212312300","202312312300","202412312300")[9]
 
 #specify a subset of period between 'starts' and 'ends' to calculate transport errors during short time period
 Timelims <- NULL #NULL means whole time period from 'start' to 'end'
@@ -39,11 +39,11 @@ stids<-stids[!stids%in%c("SFLU1")]  #problematic stations when extracting...
 #Additional MesoWest sites in northern SLC
 stids<-c(stids,c("USDR2"))  #UofU MiniSodar2
 
-outputdir <- "Output/"   #output from 'XtractHRRR_MergeMesoWest.r' 
+outputdir <- "out/"   #output from 'XtractHRRR_MergeMesoWest.r' 
 
-mettype<-"HRRR"
-vars<-c("U","V","WSPD","T")[1:4]
-plotTF<-FALSE
+mettype <- "HRRR"
+vars <- c("U","V","WSPD","T")[1:4]
+plotTF <- FALSE
 ###################
 
 if(length(starts)!=length(ends)){stop("starts and ends have to have the same length")}
@@ -52,7 +52,7 @@ for(tt in 1:length(starts)){
 
 start<-starts[tt];end<-ends[tt]
 
-#output from "XtractHRRR_MergeMesoWestV1.r"
+#output from "XtractHRRR_MergeMesoWest.r"
 objname<-paste0(outputdir,"/",mettype,"_obs_",start,"to",end,".RDS")
 dat<-readRDS(objname)$dat
 station.info<-readRDS(objname)$station.info
